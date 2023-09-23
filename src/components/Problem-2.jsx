@@ -14,6 +14,7 @@ const Problem2 = () => {
   const [selectedContact, setSelectedContact] = useState(null);
 
   const USContact = contactsA.filter(item => item.country.name == "United States");
+  const BDContact = contactsA.filter(item => item.country.name == "Bangladesh");
  
 
   useEffect(() => {
@@ -23,22 +24,22 @@ const Problem2 = () => {
       })
   }, [filterTextA, onlyEvenA]);
 
-  useEffect(() => {
-    // Fetch contacts from the API for Modal B (US Contacts)
-    // You should implement this API call according to the provided documentation.
-    // Remember to apply filters for even IDs and search text.
-  }, [filterTextB, onlyEvenB]);
-
   const openModalA = () => {
     setShowModalA(true);
     setShowModalB(false);
-    // Fetch initial data for Modal A when opening it
+    setShowModalC(false);
   };
 
   const openModalB = () => {
     setShowModalB(true);
     setShowModalA(false);
-    // Fetch initial data for Modal B when opening it
+    setShowModalC(false);
+  };
+
+  const openModalC = () => {
+    setShowModalC(true);
+    setShowModalB(false);
+    setShowModalA(false);
   };
 
   const closeModalA = () => {
@@ -94,6 +95,7 @@ const Problem2 = () => {
             </div>
             <div className="modal-body">
               <button
+              style={{ backgroundColor: "#46139f", color: "#FFFFFF" }}
                 className="btn btn-lg btn-outline-primary"
                 type="button"
                 onClick={openModalA}
@@ -101,6 +103,7 @@ const Problem2 = () => {
                 All Contacts
               </button>
               <button
+                  style={{ backgroundColor: "#ff7f50", color: "#FFFFFF" }}
                 className="btn btn-lg btn-outline-warning"
                 type="button"
                 onClick={openModalB}
@@ -119,7 +122,14 @@ const Problem2 = () => {
                 <ul>
                    
                 {
-                contactsA.map((contact, index) =>  <li key={index}>{contact.phone}</li>)
+                contactsA.map((contact, index) =>  <li key={index} onClick={openModalC}>{contact.phone} <button
+                style={{ border: "1px solid #46139f" }}
+                type="button"
+                className="btn"
+                onClick={openModalC}
+              >
+                Modal - C
+              </button></li>)
                 }
                 </ul>
             </div>
@@ -160,14 +170,16 @@ const Problem2 = () => {
             </div>
             <div className="modal-body">
               <button
-                className="btn btn-lg btn-outline-primary"
+style={{ backgroundColor: "#46139f", color: "#FFFFFF" }}
+                className="btn btn-lg "
                 type="button"
                 onClick={openModalA}
               >
                 All Contacts
               </button>
               <button
-                className="btn btn-lg btn-outline-warning"
+                  style={{ backgroundColor: "#ff7f50", color: "#FFFFFF" }}
+                className="btn btn-lg "
                 type="button"
                 onClick={openModalB}
               >
@@ -185,7 +197,14 @@ const Problem2 = () => {
                 <ul>
                    
                 {
-                USContact.map((contact, index) =>  <li key={index}>{contact.phone}</li>)
+                USContact.map((contact, index) =>  <li key={index} onClick={openModalC}>{contact.phone} <button
+                style={{ border: "1px solid #46139f" }}
+                type="button"
+                className="btn"
+                onClick={openModalC}
+              >
+                Modal - C
+              </button></li>)
                 }
                 </ul>
             </div>
@@ -202,6 +221,74 @@ const Problem2 = () => {
                 type="button"
                 className="btn btn-primary"
                 onClick={closeModalB}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal c */}
+      <div
+        className={`modal ${showModalC ? "show d-block" : ""}`}
+        tabIndex="-1"
+        role="dialog"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Modal C - Bangladesh Contacts</h5>
+              <button type="button" className="close" onClick={closeModalC}>
+                <span>&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <button
+              style={{ backgroundColor: "#46139f", color: "#FFFFFF" }}
+                className="btn btn-lg btn-outline-primary"
+                type="button"
+                onClick={openModalA}
+              >
+                All Contacts
+              </button>
+              <button
+              style={{ backgroundColor: "#ff7f50", color: "#FFFFFF" }}
+                className="btn btn-lg btn-outline-warning"
+                type="button"
+                onClick={openModalB}
+              >
+                US Contacts
+              </button>
+              <button
+                type="button"
+                className="btn btn-lg btn-primary"
+                onClick={closeModalC}
+              >
+                Close
+              </button>
+            </div>
+            <div>
+                <ul>
+                   
+                {
+                BDContact.map((contact, index) =>  <li key={index} onClick={openModalC}>{contact.phone} </li>)
+                }
+                </ul>
+            </div>
+            <div className="modal-footer">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={onlyEvenB}
+                  onChange={() => setOnlyEvenB(!onlyEvenB)}
+                />{" "}
+                Only Even
+              </label>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={closeModalC}
               >
                 Close
               </button>
